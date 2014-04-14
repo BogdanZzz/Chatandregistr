@@ -1,0 +1,18 @@
+<% layout("main") -%>
+<% block("header", "Вход для зарегистрированных пользователей"); %>
+<section id="loginForm">
+	<form method="post" action="/login">
+		<fieldset>
+			<ol>
+				<li class="username">
+					<label for="login">Логин:</label><input type="text" name="login">
+				</li>
+				<li class="password">
+					<label for="password">Пароль:</label><input type="password" name="password">
+				</li>
+			</ol>
+			<input type="submit" value="Вход">
+		</fieldset>
+	</form>
+	<a href="/register">Хотите зарегистрироваться?</a>
+</section>

@@ -1,0 +1,36 @@
+<% layout("main") %>
+<% block("header", "Наш Чат!"); %>
+<div style="width: 500px; height: 300px; margin: 0 0 20px 0; border: solid 1px #999; overflow-y: scroll;" id="content"></div>
+<form id="form" action="" onsubmit="return false">
+    <input id="field" style="width:350px;"></input>
+    <input id="send" type="submit" value="Send"></input>
+</form>
+
+<script>
+        var messages = [];
+        window.onload = function(){
+        var socket = io.connect();
+
+        var name = prompt('Представьтесь', name);
+        if(name)
+            socket.emit('hello', {name: name});
+
+        var field = document.getElementById('field');
+        var form = document.getElementById('form');
+        var content = document.getElementById('content');
+
+        form.onsubmit = function(){
+            var text = field.value;
+            socket.emit('send', {message: text});
+            return false;
+        };
+
+        socket.on('message', function(data){
+                messages.push(data.message);
+                var html = '';
+                for(var i=0; i<messages.length; i++)
+                    html += messages[i] + '<br>';
+                content.innerHTML = html;
+        });
+    };
+    </script>

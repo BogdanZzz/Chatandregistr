@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title><%=title%></title>
+	<link rel="stylesheet" href="/stylesheets/style.css">
+    <script src="/chat.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+</head>
+<body>
+	<header>
+		<div class="content-wrapper">
+			<div class="float-left">
+				<p class="site-title">Наш сайт</p>
+			</div>
+			<div class="float-right">
+				<%- partial("menu")%>
+			</div>
+		</div>
+	</header>
+	<div id="body">
+		<section class="main-content">
+			<h1><%= blocks.header %></h1>
+			<%- body %>
+		</section>
+	</div>
+	<footer>
+		<div class="content-wrapper">
+			<div class="float-left">
+				<p>Все права защищены &copy; 2013</p>
+			</div>
+			<div class="float-right">
+				<ul id="social">
+					<li>
+						<a href="/" class="sfacebook">Facebook</a>
+						<a href="/" class="stwitter">Twitter</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</footer>
+</body>
+</html>

@@ -1,0 +1,6 @@
+<% layout("main") %>
+<% block("header", error.message) %>
+
+<p>Извините, произошла ошибка.</p>
+
+<p><%=error.status%><%=error.message%></p>

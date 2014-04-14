@@ -1,0 +1,18 @@
+{
+	"port": 8080,
+	"domain": "http://mychattestchat.eu01.aws.af.cm",
+	"log-level": "dev",
+	"app-views": "views",
+	"app-engine": "ejs",
+	"app-static": "public",
+	"db-cnn": "mongodb://localhost/site",
+	"session":{
+		"key": "NODESESSID",
+		"secret": "MySecretWord",
+		"cookie":{
+			"path": "/",
+			"httpOnly": true,
+			"maxAge": null
+		}
+	}
+}
