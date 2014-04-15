@@ -11,7 +11,6 @@ var conf = require('./config');
 var log = require('./ext/log')(module);
 
 var app = express();
-
 // all environments
 app.set('views', path.join(__dirname, conf.get('app-views')));
 app.set('view engine', conf.get('app-engine'));
@@ -26,7 +25,35 @@ app.use(express.session({
 	key: conf.get('session:key'),
 	cookie: conf.get('session:cookie')
 }));
-
+exports.mongoosefunc = function(){
+    if(process.env.VCAP_SERVICES){
+    var env = JSON.parse(process.env.VCAP_SERVICES);
+    var mongo = env['mongodb2-2.4.8'][0]['credentials'];
+    }
+    else{
+    mongo = {
+    "hostname":"localhost",
+    "port":27017,
+    "username":"",
+    "password":"",
+    "name":"",
+    "db":"db"
+    }
+    }
+    var generate_mongo_url = function(obj){
+    obj.hostname = (obj.hostname || 'localhost');
+    obj.port = (obj.port || 27017);
+    obj.db = (obj.db || 'test');
+    if(obj.username && obj.password){
+    return "mongodb://" + obj.username + ":" + obj.password + "@" + obj.hostname + ":" + obj.port + "/" + obj.db;
+    }
+    else{
+    return "mongodb://" + obj.hostname + ":" + obj.port + "/" + obj.db;
+    }
+    }
+    mongourl = generate_mongo_url(mongo);
+	
+}
 
 app.use(express.static(path.join(__dirname, conf.get('app-static'))));
 app.use(require('./routes/error'));
@@ -58,7 +85,7 @@ app.use(function(err, req, res, next){
 app.get('/', routes.index);
 app.get('/users', user.list); */
 
-var io = require('socket.io').listen(app.listen(port), {transports:['htmlfile', 'xhr-polling', 'jsonp-polling','flashsocket']});
+var io = require('socket.io').listen(app.listen(port));
 var users = {};
 function getUsers(obj){
 	var tmp = [];
@@ -66,6 +93,7 @@ function getUsers(obj){
 		tmp.push(obj[i]);
 	return tmp.join(', ');
 }
+
 
 io.sockets.on('connection', function(client){
 	client.on('hello', function(data){
